@@ -1,10 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
 
 const initialState = { //Mock Data
-    projects: [
-        { id: 1, name: "Website Redesign", status: "Active" },
-        { id: 2, name: "Mobile App V2", status: "Planning" }
-    ]
+    projects: []
 };
 
 function projectReducer(state, action) {
