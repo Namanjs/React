@@ -1,5 +1,6 @@
 import { useProjects } from "../context/ProjectContext";
 import ProjectForm from "../components/ProjectForm";
+import { Link } from "react-router-dom";
 
 export default function ProjectList() {
 
@@ -32,16 +33,20 @@ export default function ProjectList() {
 
             <div className="mt-4 flex gap-2">
 
-              <button className="mt-4 text-blue-600 hover:text-blue-800 text-sm font-medium">
+              {/* Replace the old <button> with this <Link> */}
+              <Link
+                to={`/projects/${project.id}`}
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+              >
                 View Details →
-              </button>
+              </Link>
 
-              <button 
-              onClick={() => dispatch({
-                type: "DELETE_PROJECT",
-                payload: project.id
-              })}
-              className="text-red-500 hover:text-red-700 text-sm font-medium ml-auto"
+              <button
+                onClick={() => dispatch({
+                  type: "DELETE_PROJECT",
+                  payload: project.id
+                })}
+                className="text-red-500 hover:text-red-700 text-sm font-medium ml-auto"
               >
                 Delete
               </button>

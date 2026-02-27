@@ -1,7 +1,8 @@
 import { createContext, useContext, useReducer } from "react";
 
 const initialState = { //Mock Data
-    projects: []
+    projects: [],
+    tasks: []
 };
 
 function projectReducer(state, action) {
@@ -16,6 +17,18 @@ function projectReducer(state, action) {
             return{
                 ...state,
                 projects: state.projects.filter((p) => p.id !== action.payload)
+            }
+
+        case "ADD_TASK":
+            return{
+                ...state,
+                tasks: [...state.tasks, action.payload]
+            }
+
+        case "DELETE_TASK":
+            return{
+                ...state,
+                tasks: state.tasks.filter((t) => t.id !== action.payload)
             }
 
         default:
