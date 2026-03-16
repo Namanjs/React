@@ -12,13 +12,13 @@ export default function Layout() {
         
         <nav className="flex-1 p-4 space-y-2">
           {/* We use Link instead of <a href> to stop the page from reloading */}
-          <Link to="/" className="block p-3 hover:bg-gray-800 rounded">
+          <Link to="/" className="block p-3 hover:bg-gray-800 rounded-xl">
             Dashboard
           </Link>
-          <Link to="/projects" className="block p-3 hover:bg-gray-800 rounded">
+          <Link to="/projects" className="block p-3 hover:bg-gray-800 rounded-xl">
             Projects
           </Link>
-          <Link to="/settings" className="block p-3 hover:bg-gray-800 rounded">
+          <Link to="/settings" className="block p-3 hover:bg-gray-800 rounded-xl">
             Settings
           </Link>
         </nav>

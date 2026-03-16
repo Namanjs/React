@@ -6,6 +6,16 @@ export default function ProjectList() {
 
   const { state, dispatch } = useProjects();
 
+  if(state.isLoading){
+    return(
+      <div className="p-10 text-center">
+        <h2 className="text-2xl font-bold text-gray-500 animate-pulse">
+          Loading your workspace...
+        </h2>
+      </div>
+    )
+  }
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">All Projects</h1>

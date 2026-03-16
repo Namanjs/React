@@ -1,8 +1,9 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 
 const initialState = { //Mock Data
     projects: [],
-    tasks: []
+    tasks: [],
+    isLoading: true
 };
 
 function projectReducer(state, action) {
@@ -30,6 +31,13 @@ function projectReducer(state, action) {
                 ...state,
                 tasks: state.tasks.filter((t) => t.id !== action.payload)
             }
+        
+        case "SET_PROJECTS":    
+            return{
+                ...state,
+                projects: action.payload,
+                isLoading: false
+            }
 
         default:
             return state;
@@ -40,6 +48,17 @@ const ProjectContext = createContext();
 
 export function ProjectProvider({ children }) {
     const [state, dispatch] = useReducer(projectReducer, initialState);
+
+    useEffect(() => {
+        setTimeout(() => {
+            const fakeServerData = [
+                {id: 1, name: "Website Redesign", status: "Active"},
+                {id: 2, name: "Mobile App V2", status: "Planning"}
+            ]
+
+            dispatch({type: "SET_PROJECTS", payload: fakeServerData})
+        }, 1500)
+    }, [])
 
     return(
         <ProjectContext.Provider value = {{ state, dispatch }}>
