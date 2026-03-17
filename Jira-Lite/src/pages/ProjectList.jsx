@@ -1,13 +1,28 @@
 import { useProjects } from "../context/ProjectContext";
 import ProjectForm from "../components/ProjectForm";
 import { Link } from "react-router-dom";
+import Modal from "../components/Modal";
+import { useState } from "react";
 
 export default function ProjectList() {
 
   const { state, dispatch } = useProjects();
 
-  if(state.isLoading){
-    return(
+  const [projectToDelete, setProjectToDelete] = useState(null);
+
+  function confirmDelete() {
+    if (projectToDelete) {
+      dispatch({
+        type: "DELETE_PROJECT",
+        payload: projectToDelete
+      });
+
+      setProjectToDelete(null);
+    }
+  }
+
+  if (state.isLoading) {
+    return (
       <div className="p-10 text-center">
         <h2 className="text-2xl font-bold text-gray-500 animate-pulse">
           Loading your workspace...
@@ -52,10 +67,7 @@ export default function ProjectList() {
               </Link>
 
               <button
-                onClick={() => dispatch({
-                  type: "DELETE_PROJECT",
-                  payload: project.id
-                })}
+                onClick={() => setProjectToDelete(project.id)}
                 className="text-red-500 hover:text-red-700 text-sm font-medium ml-auto"
               >
                 Delete
@@ -74,6 +86,36 @@ export default function ProjectList() {
         )}
 
       </div>
+
+      <Modal
+        isOpen={projectToDelete !== null}
+        onClose={() => setProjectToDelete(null)}
+      >
+        <h3
+          className="text-xl font-bold text-gray-900 mb-2"
+        >Delete Project</h3>
+
+        <p
+          className="text-gray-600 mb-6"
+        >Are you sure you want to delete this project? This action cannot be undone and will remove all associated tasks.</p>
+
+        <div className="flex justify-end gap-3">
+          <button
+          onClick={() => setProjectToDelete(null)}
+          className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded font-medium"
+          >
+            Cancel
+          </button>
+
+          <button
+          onClick={confirmDelete}
+          className="px-4 py2 text-white bg-red-600 hover:bg-red-700 rounded font-medium"
+          >
+            Yes, Delete it
+          </button>
+        </div>
+      </Modal>
+
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useProjects } from "../context/ProjectContext";
 import TaskForm from "../components/TaskForm";
+import { useEffect } from "react";
 
 export default function ProjectDetails() {
   const { projectId } = useParams();
@@ -8,6 +9,18 @@ export default function ProjectDetails() {
 
   const project = state.projects.find((p) => p.id === Number(projectId));
   const projectTasks = state.tasks.filter((t) => t.projectId === Number(projectId));
+
+  useEffect(() => {
+    if(project){
+      document.title = `${project.name} | Jira-Lite`;
+    }else {
+      document.title = "Project not found | Jira-Lite";
+    }
+
+    return () => { // useEffect rule: if you return something it must be a function
+      document.title = "Jira-Lite";
+    }
+  },[project])
 
   if (!project) {
     return <div className="p-6">Project not found.</div>;
