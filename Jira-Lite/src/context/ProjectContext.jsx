@@ -39,6 +39,21 @@ function projectReducer(state, action) {
                 isLoading: false
             }
 
+        case 'UPDATE_PROJECT':
+            return{
+                ...state,
+                projects: state.projects.map((p) => {
+                    if(p.id === action.payload.id){
+                        return{
+                            ...p,
+                            name: action.payload.name
+                        };
+                    }else{
+                        return p;
+                    }
+                })
+            }
+
         default:
             return state;
     }

@@ -10,6 +10,24 @@ export default function ProjectList() {
 
   const [projectToDelete, setProjectToDelete] = useState(null);
 
+  const [editingProject, setEditingProject] = useState(null);
+  const [newName, setNewName] = useState("");
+
+  function handleUpdate() {
+    if(newName.trim() && editingProject){
+      dispatch({
+        type: "UPDATE_PROJECT",
+        payload: {
+          id: editingProject.id,
+          name: newName
+        }
+      });
+
+      setEditingProject(null);
+      setNewName("");
+    }
+  }
+
   function confirmDelete() {
     if (projectToDelete) {
       dispatch({
@@ -67,6 +85,16 @@ export default function ProjectList() {
               </Link>
 
               <button
+              onClick={() => {
+                setEditingProject(project);
+                setNewName(project.name);
+              }}
+              className="text-gray-500 hover:text-gray-700 text-sm font-medium ml-auto"
+              >
+                Edit
+              </button>
+
+              <button
                 onClick={() => setProjectToDelete(project.id)}
                 className="text-red-500 hover:text-red-700 text-sm font-medium ml-auto"
               >
@@ -113,6 +141,39 @@ export default function ProjectList() {
           >
             Yes, Delete it
           </button>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={editingProject !== null}
+        onClose={() => setEditingProject(null)}
+      >
+        <h3 className="text-xl font-bold text-gray-900 mb-4">Edit Project Name</h3>
+
+        <input 
+          type="text"
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+          className="w-full p-3 border-gray-300 rounded mb-6 focus:ring-2 focus:ring-blue-500 outline-none"
+          autoFocus
+        />
+
+        <div>
+
+          <button
+            onClick={() => setEditingProject(null)}
+            className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded font-medium"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={handleUpdate}
+            className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded font-medium"
+          >
+            Save Changes
+          </button>
+
         </div>
       </Modal>
 
