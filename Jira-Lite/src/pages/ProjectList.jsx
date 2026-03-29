@@ -50,8 +50,6 @@ export default function ProjectList() {
   const [newName, setNewName] = useState("");
 
   const activeProjectCount = useMemo(() => {
-    console.log("Calculating active projects...");
-
     return state.projects.filter((p) => p.status === "Active").length
   }, [state.projects])
 
@@ -105,15 +103,15 @@ export default function ProjectList() {
 
       <Modal isOpen={projectToDelete !== null} onClose={() => setProjectToDelete(null)}>
         <h3 className="text-xl font-bold text-gray-900 mb-2">Delete Project</h3>
-        <p className="text-gray-600 mb-6">Are you sure you want to delete this project? This action cannot be undone.</p>
+        <p className="text-gray-900 mb-6">Are you sure you want to delete this project? This action cannot be undone.</p>
         <div className="flex justify-end gap-3">
-          <button onClick={() => setProjectToDelete(null)} className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded font-medium">Cancel</button>
+          <button onClick={() => setProjectToDelete(null)} className="px-4 py-2 text-gray-900 bg-gray-500 hover:bg-gray-400 rounded font-medium">Cancel</button>
           <button 
             onClick={() => {
               dispatch({ type: "DELETE_PROJECT", payload: projectToDelete });
               setProjectToDelete(null);
             }}
-            className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded font-medium"
+            className="px-4 py-2 text-white bg-red-800 hover:bg-red-700 rounded font-medium"
           >
             Yes, Delete It
           </button>
@@ -126,12 +124,12 @@ export default function ProjectList() {
           type="text"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded mb-6 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full p-3 border border-gray-300 rounded mb-6 focus:ring-1 focus:ring-blue-500 outline-none"
           autoFocus
         />
         <div className="flex justify-end gap-3">
-          <button onClick={() => setEditingProject(null)} className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded font-medium">Cancel</button>
-          <button onClick={handleUpdate} className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded font-medium">Save Changes</button>
+          <button onClick={() => setEditingProject(null)} className="px-4 py-2 text-gray-900 bg-gray-500 hover:bg-gray-400 rounded font-medium">Cancel</button>
+          <button onClick={handleUpdate} className="px-4 py-2 text-white bg-blue-800 hover:bg-blue-900 rounded font-medium">Save Changes</button>
         </div>
       </Modal>
 
