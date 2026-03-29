@@ -53,6 +53,17 @@ function projectReducer(state, action) {
                     }
                 })
             }
+        
+        case 'UPDATE_TASK_STATUS':
+            return {
+                ...state,
+                tasks: state.tasks.map((task) => {
+                    if(task.id === action.payload.taskId){
+                        return {...task, status: action.payload.newStatus};
+                    }
+                    return task;
+                })
+            }
 
         default:
             return state;

@@ -4,6 +4,7 @@ import { useProjects } from "../context/ProjectContext";
 import TaskForm from "../components/TaskForm";
 import Modal from "../components/Modal";
 import { useEffect } from "react";
+import KanbanBoard from "../components/KanbanBoard";
 
 const TaskCard = memo(({ task, onDelete }) => {
   console.log("Rendering Task:", task.title);
@@ -101,6 +102,12 @@ export default function ProjectDetails() {
       <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
         <h2 className="text-xl font-bold mb-4">Tasks</h2>
 
+        <h2 className="text-xl font-bold mb-4">Board View</h2>
+
+        <KanbanBoard tasks={projectTasks}></KanbanBoard>
+
+        <h2 className="text-xl font-bold mt-8 mb-4">List View</h2>
+
         <TaskForm projectId={project.id} />
 
         {projectTasks.length === 0 ? (
@@ -108,16 +115,16 @@ export default function ProjectDetails() {
         ) : (
           <div className="space-y-4">
             {projectTasks.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  onDelete={handleDeleteClick}
-                />
+              <TaskCard
+                key={task.id}
+                task={task}
+                onDelete={handleDeleteClick}
+              />
             ))}
           </div>
         )}
 
-        <p className="text-md font-medium mt-8 text-gray-800 bg-gray-100 inline-block px-4 py-2 rounded-full border border-gray-300">Active 
+        <p className="text-md font-medium mt-8 text-gray-800 bg-gray-100 inline-block px-4 py-2 rounded-full border border-gray-300">Active
           tasks: {activeTaskCount}</p>
 
       </div>
