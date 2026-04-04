@@ -15,51 +15,44 @@ function projectReducer(state, action) {
             };
 
         case "DELETE_PROJECT":
-            return{
+            return {
                 ...state,
                 projects: state.projects.filter((p) => p.id !== action.payload)
             }
 
         case "ADD_TASK":
-            return{
+            return {
                 ...state,
                 tasks: [...state.tasks, action.payload]
             }
 
         case "DELETE_TASK":
-            return{
+            return {
                 ...state,
                 tasks: state.tasks.filter((t) => t.id !== action.payload)
             }
-        
-        case "SET_PROJECTS":    
-            return{
+
+        case "SET_PROJECTS":
+            return {
                 ...state,
                 projects: action.payload,
                 isLoading: false
             }
 
         case 'UPDATE_PROJECT':
-            return{
+            return {
                 ...state,
-                projects: state.projects.map((p) => {
-                    if(p.id === action.payload.id){
-                        return{
-                            ...p,
-                            name: action.payload.name
-                        };
-                    }else{
-                        return p;
-                    }
-                })
-            }
-        
+                projects: state.projects.map((p) =>
+                    p.id === action.payload.id ? { ...p, ...action.payload } : p
+                )
+            };
+
         case 'UPDATE_TASK_STATUS':
             return {
                 ...state,
                 tasks: state.tasks.map((task) => {
-                    if(task.id === action.payload.taskId){
-                        return {...task, status: action.payload.newStatus};
+                    if (task.id === action.payload.taskId) {
+                        return { ...task, status: action.payload.newStatus };
                     }
                     return task;
                 })
@@ -78,16 +71,16 @@ export function ProjectProvider({ children }) {
     useEffect(() => {
         setTimeout(() => {
             const fakeServerData = [
-                {id: 1, name: "Website Redesign", status: "Active"},
-                {id: 2, name: "Mobile App V2", status: "Planning"}
+                { id: 1, name: "Website Redesign", status: "Active", notes: "" },
+                { id: 2, name: "Mobile App V2", status: "Planning", notes: "" }
             ]
 
-            dispatch({type: "SET_PROJECTS", payload: fakeServerData})
+            dispatch({ type: "SET_PROJECTS", payload: fakeServerData })
         }, 1500)
     }, [])
 
-    return(
-        <ProjectContext.Provider value = {{ state, dispatch }}>
+    return (
+        <ProjectContext.Provider value={{ state, dispatch }}>
             {children}
         </ProjectContext.Provider>
     );

@@ -5,6 +5,7 @@ import TaskForm from "../components/TaskForm";
 import Modal from "../components/Modal";
 import { useEffect } from "react";
 import KanbanBoard from "../components/KanbanBoard";
+import ProjectNotes from "../components/ProjectNotes";
 
 const TaskCard = memo(({ task, onDelete }) => {
   console.log("Rendering Task:", task.title);
@@ -58,7 +59,7 @@ export default function ProjectDetails() {
   const projectTasks = state.tasks.filter((t) => t.projectId === Number(projectId));
 
   const activeTaskCount = useMemo(() => {
-    return state.tasks.filter((t) => t.projectId === Number(projectId)).length;
+    return state.tasks.filter((t) => t.projectId === Number(projectId) && t.status === 'In Progress').length;
   }, [state.tasks, projectId])
 
   useEffect(() => {
@@ -101,6 +102,8 @@ export default function ProjectDetails() {
 
       <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
         <h2 className="text-xl font-bold mb-4">Tasks</h2>
+
+        <ProjectNotes project={project} />
 
         <h2 className="text-xl font-bold mb-4">Board View</h2>
 
