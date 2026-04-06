@@ -22,6 +22,11 @@ export default function ProjectForm(){
             payload: newProject
         });
 
+        dispatch({
+            type: "SHOW_TOAST",
+            payload: { message: `Project "${name}" created successfully!`, type: 'success'}
+        })
+
         setName("");
     }
 

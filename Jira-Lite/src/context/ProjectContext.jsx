@@ -1,11 +1,13 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 const savedData = localStorage.getItem('jiraLiteData');
+const parsedData = savedData ? JSON.parse(savedData) : null;
 
-const initialState = savedData ? JSON.parse(savedData) : {
-  projects: [],
-  tasks: [],
-  isLoading: false 
+const initialState = {
+  projects: parsedData?.projects || [],
+  tasks: parsedData?.tasks || [],
+  isLoading: false,
+  toasts: []
 };
 
 function projectReducer(state, action) {
@@ -45,6 +47,18 @@ function projectReducer(state, action) {
                 {...t, status: action.payload.newStatus} : t
             )};
             break;
+
+        case 'SHOW_TOAST':
+            return {
+                ...state,
+                toasts: [...state.toasts, {...action.payload, id: Date.now()}]
+            };
+
+        case 'HIDE_TOAST':
+            return {
+                ...state,
+                toasts: state.toasts.filter((toast) => toast.id !== action.payload.id)
+            };
 
         default:
             return state;

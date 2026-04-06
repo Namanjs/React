@@ -5,11 +5,13 @@ import ProjectList from "./pages/ProjectList";
 import ProjectDetails from "./pages/ProjectDetails";
 import Settings from "./pages/Settings";
 import { ProjectProvider } from "./context/ProjectContext";
+import ToastContainer from "./components/ToastContainer";
 
 export default function App() {
   return (
     <ProjectProvider>
       <BrowserRouter>
+        <ToastContainer />
         <Routes>
           {/* PARENT ROUTE: The Layout */}
           <Route path="/" element={<Layout />}>
