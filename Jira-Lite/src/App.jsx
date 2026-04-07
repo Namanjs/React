@@ -6,32 +6,38 @@ import ProjectDetails from "./pages/ProjectDetails";
 import Settings from "./pages/Settings";
 import { ProjectProvider } from "./context/ProjectContext";
 import ToastContainer from "./components/ToastContainer";
+import { AuthProvider } from "./context/AuthContext";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
-    <ProjectProvider>
-      <BrowserRouter>
-        <ToastContainer />
-        <Routes>
-          {/* PARENT ROUTE: The Layout */}
-          <Route path="/" element={<Layout />}>
-            {/* CHILD ROUTES: These render INSIDE the <Outlet /> of Layout */}
+    <AuthProvider>
+      <ProjectProvider>
+        <BrowserRouter>
+          <ToastContainer />
+          <Routes>
 
-            {/* index means "this is the default page when path is /" */}
-            <Route index element={<Dashboard />} />
+            {/* PUBLIC ROUTE: Anyone can see this */}
+            <Route path="/login" element={<Login />} />
 
-            <Route path="projects" element={<ProjectList />} />
+            {/* THE BOUNCER: It wraps the entire application */}
+            <Route element={<ProtectedRoute />}>
 
-            {/* :projectId is a Variable. It matches /projects/1, /projects/abc, etc. */}
-            <Route path="projects/:projectId" element={<ProjectDetails />} />
+              {/* If the bouncer lets you in, it will render its Outlet, which contains your entire app Layout and all its children. */}
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="projects" element={<ProjectList />} />
+                <Route path="projects/:projectId" element={<ProjectDetails />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="*" element={<h1 className="p-10 text-red-500">404 - Page Not Found</h1>} />
+              </Route>
 
-            <Route path="settings" element={<Settings />} />
+            </Route>
 
-            {/* Catch-all for 404 */}
-            <Route path="*" element={<h1 className="p-10 text-red-500">404 - Page Not Found</h1>} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </ProjectProvider>
+          </Routes>
+        </BrowserRouter>
+      </ProjectProvider>
+    </AuthProvider>
   );
 }
