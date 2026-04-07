@@ -71,6 +71,14 @@ export default function TaskForm({ projectId }) {
             payload: newTask
         });
 
+        dispatch({
+            type: "SHOW_TOAST",
+            payload: {
+                message: "Task added!",
+                type: "success"
+            }
+        })
+
         setFormData({
             title: "",
             description: "",

@@ -76,6 +76,13 @@ export default function ProjectDetails() {
   function confirmTaskDelete() {
     if (taskToDelete) {
       dispatch({ type: "DELETE_TASK", payload: taskToDelete.id });
+      dispatch({
+        type: 'SHOW_TOAST',
+        payload: {
+          message: "Task removed.",
+          type: "error"
+        }
+      })
       setTaskToDelete(null);
     }
   }
@@ -137,7 +144,7 @@ export default function ProjectDetails() {
         onClose={() => setTaskToDelete(null)}
       >
         <h3 className="text-xl font-bold text-gray-900 mb-2">Delete Task</h3>
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-900 mb-6">
           Are you sure you want to delete this task? This action cannot be undone.
         </p>
 

@@ -109,6 +109,7 @@ export default function ProjectList() {
           <button 
             onClick={() => {
               dispatch({ type: "DELETE_PROJECT", payload: projectToDelete });
+              dispatch({ type: "SHOW_TOAST", payload: { message: "Project deleted.", type: "error"}})
               setProjectToDelete(null);
             }}
             className="px-4 py-2 text-white bg-red-800 hover:bg-red-700 rounded font-medium"
