@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -8,6 +8,8 @@ export default function Login() {
     const [error, setError] = useState("");
 
     const { login } = useAuth();
+
+    const { state } = useLocation();
 
     const navigate = useNavigate();
 
@@ -20,6 +22,13 @@ export default function Login() {
         }
 
         login(username);
+
+        const path = state?.from;
+
+        if(path){
+            navigate(path);
+            return;
+        }
 
         navigate("/");
     }
